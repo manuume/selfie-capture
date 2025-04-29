@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smile Selfie App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smile Selfie App</h1>
+            <p>Smile to capture a selfie automatically!</p>
+        </header>
+
+        <main>
+            {% if not cascade_status.face_loaded or not cascade_status.smile_loaded %}
+            <div class="error-message">
+                <p>⚠️ Warning: Cascade files not loaded properly.</p>
+                <p>The application might not function correctly. Please refresh the page or contact support.</p>
+            </div>
+            {% endif %}
+
+            <div class="camera-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+                <div class="controls">
+                    <button id="startCamera">Start Camera</button>
+                    <button id="takeSelfie" disabled>Take Manual Selfie</button>
+                </div>
+                <div class="status">
+                    <p id="smileStatus">Camera not started</p>
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h2>Gallery</h2>
+                <div class="gallery-container">
+                    {% if images %}
+                        {% for image in images %}
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename=image) }}" alt="Selfie">
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No selfies captured yet. Smile to take one!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 Smile Selfie App</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
